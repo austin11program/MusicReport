@@ -1,0 +1,97 @@
+:root {
+    --sfont: 1.2em;
+    --mfont: 1.9em;
+    --lfont: 3.14em;
+  }
+
+
+
+.circle-photo {
+    width: 500px; /* Set the width of the circle */
+    height: 500px; /* Set the height of the circle */
+    border-radius: 50%; /* This creates the circle */
+    overflow: hidden; /* Hide any overflow from the image */
+    align-items: center; /* Centering content if needed */
+    justify-content: center; /* Centering content if needed */
+    box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.3);
+    display: block; /* Removes space below the image */
+    margin: 0;      /* Removes default margin */
+    padding: 0;     /* Removes default padding */
+}
+
+.headertext{
+ font-size: var(--lfont);
+ font-weight: bold; /* Bold text */
+ font-family: "Exo 2", sans-serif;
+ font-optical-sizing: auto;
+ font-style: normal;
+
+}
+.subheader{
+    font-size: var(--mfont);
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+.bodytext{
+    font-size: var(--mfont);
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    width: 25vw;
+}
+
+.profilebutton {
+    width: 25%; /* Adjust width as needed */
+    max-width: 200px; /* Optional: Limits maximum width for larger screens */
+    height: 50px;
+    background-color: #BF5700; /* Orange background color */
+    border-radius: 10px; /* Rounded corners */
+    border: none; /* No border */
+    transition: transform 0.2s ease, background-color 0.3s ease; /* Smooth transition for transform and background color */
+    text-decoration: none; /* Remove underline from the link */
+    display: inline-flex; /* Aligns content and allows vertical centering */
+    align-items: center; /* Vertically centers the text */
+    justify-content: center; /* Horizontally centers the text */
+    color: white; /* Text color */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow for a 3D effect */
+}
+
+.profilebutton:hover {
+    transform: translateY(-5px); /* Slightly lifts the button on hover */
+    background-color: #a64500; /* Darker orange on hover */
+    color: white;
+}
+.icon-container {
+    display: flex;
+    gap: 10px; /* Space between icons */
+    margin-top: 20px; /* Space above icons */
+}
+
+.icon {
+    width: 50px; /* Size of the icon */
+    height: 50px; /* Size of the icon */
+    border-radius: 50%; /* Makes the icon circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333; /* Background color of the icon */
+    text-decoration: none; /* Remove underline from the link */
+    overflow: hidden; /* Ensures image doesn’t overflow the circle */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition effects */
+}
+
+.icon img {
+    width: 100%; /* Cover the full width of the icon */
+    height: 100%; /* Cover the full height of the icon */
+    object-fit: cover; /* Ensures the image covers the circular area */
+    object-position: center; /* Center the image within the circle */
+}
+
+.icon:hover {
+    background-color: #555; /* Darker background color on hover */
+    transform: scale(1.1); /* Slightly enlarge icon on hover */
+}

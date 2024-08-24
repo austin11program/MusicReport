@@ -1,0 +1,52 @@
+:root {
+  --sfont: 1.2em;
+  --mfont: 1.9em;
+  --lfont: 3.14em;
+}
+
+.reportbutton {
+  padding: 0.6rem;
+  font-size: var(--sfont);
+  margin-right: 20px;
+}
+
+.reportinput {
+  padding: 0.6rem;
+}
+
+.reportresults {
+  font-size: var(--sfont);
+  transition-duration: 0.3s;
+
+}
+
+.reportresults:hover {
+  background-color: lightblue;
+}
+
+.fullpage {
+  height: 100vh;
+}
+
+.header {
+  font-size: var(--mfont);
+}
+
+.designEditImage {
+  width: 5.08em;
+  height: 5.08em;
+  margin: 10px;
+  transition-duration: 0.3s;
+}
+
+.designEditImage:hover {
+  transform: translate(-10px, -10px);
+}
+
+.fixedwidth {
+  width: fit-content;
+}
+
+.createNew {
+  width: 190px;
+}

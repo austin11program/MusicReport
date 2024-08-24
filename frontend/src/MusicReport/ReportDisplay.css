@@ -1,0 +1,17 @@
+.bigimage{
+    width: 15em;
+    height: 15em;
+}
+
+.header{
+    font-size: 1.94em;
+}
+.text{
+    font-size: 1.2em;
+}
+
+.musicreportcard{
+    width: 600px;
+    height: fit-content;
+    padding: 40px;
+}
