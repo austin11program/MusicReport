@@ -187,7 +187,7 @@ def createNewCard(request):
         except MusicReport.DoesNotExist:
             pass
     
-        userDataModel = MusicReport.objects.get(name__endswith="_USER_DATA%")
+        userDataModel = MusicReport.objects.get(name__endswith="_USER_DATA%", dateCreated=strftime("%Y-%m-%d", gmtime()))
         UserData = UserInfo.objects.get()
         card = save_user_data(userDataModel, name,UserData)
 
