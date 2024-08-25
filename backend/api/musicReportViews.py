@@ -3,6 +3,8 @@ from .models import TrackInfo, ArtistInfo, AlbumInfo, MusicReport, ArtistRanking
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from time import gmtime, strftime
+from django.shortcuts import render
+
 
 from .populateDatabase import fillMusicReport
 from .spotifyapi import search_for_artist,search_for_album, search_for_song
@@ -261,3 +263,6 @@ def deleteAll(request):
     ReportDesign.objects.all().delete()
     UserInfo.objects.all().delete()
     return JsonResponse({'success': 200})  
+
+def backend_server_view(request):
+    return render(request, 'index.html')

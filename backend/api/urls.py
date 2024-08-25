@@ -19,7 +19,7 @@ urlpatterns = [
     path("musicreport/imagelist/", musicReportViews.getimageresults,name ="create_new"),
     path("musicreport/setdesignimage/", musicReportViews.setdesignimage,name ="create_new"),
 
-    
+    path('', musicReportViews.backend_server_view, name='backend_server')
 
     
 ]
