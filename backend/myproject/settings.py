@@ -123,11 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/root/MusicReport/backend/static'
+STATIC_ROOT = '/root/MusicReport/backend/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,5 +138,4 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Your React app's URL
     # Add other origins if necessary
 ]
-
 
