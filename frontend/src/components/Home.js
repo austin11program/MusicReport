@@ -28,8 +28,11 @@ function Home() {
                         <a href="mailto:austinnguyennn@gmail.com" target="_blank" class="icon" title="Email">
                             <img src="emailicon.jpeg" alt="Email" />
                         </a>
-                        <a href="https://gitlab.com/austinnguyennn" target="_blank" class="icon" title="GitHub">
-                            <img src="gitlabicon.png" alt="GitHub" />
+                        <a href="https://gitlab.com/austinnguyennn" target="_blank" class="icon" title="GitLab">
+                            <img src="gitlabicon.png" alt="GitLab" />
+                        </a>
+                        <a href="https://github.com/austin11program" target="_blank" class="icon" title="GitHub">
+                            <img src="githubicon.png" alt="GitHub" />
                         </a>
 
                     </div>
