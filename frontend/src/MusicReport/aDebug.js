@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { DataContext } from './Report'; 
+import { DataContext } from './Report';
 import './Login.css';
+import api from './api';
 
 
-function LoginButton(props) { 
+function LoginButton(props) {
 
     const [codeRequest, setCodeRequest] = useState(false);
     const { setToken } = useContext(DataContext);
 
     const handleLogin = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/musicreport/login/', {
+            const response = await api.get('/musicreport/login/', {
                 params: {
                     redirectUrl: props.redirectUrl
-                }            });
+                }
+            });
             window.location.href = response.data.auth_url; // Redirect the browser
             setCodeRequest(true);
         } catch (error) {
@@ -28,7 +30,7 @@ function LoginButton(props) {
         if (code) {
             const fetchToken = async () => {
                 try {
-                    const response = await axios.get('http://localhost:8000/musicreport/getToken/', {
+                    const response = await api.get('/musicreport/getToken/', {
                         params: {
                             code: code,
                             redirectUrl: props.redirectUrl
@@ -48,7 +50,7 @@ function LoginButton(props) {
 
     return (
         <div>
-            <button className ="btn btn-success loginbutton" onClick={handleLogin}>Login</button>
+            <button className="btn btn-success loginbutton" onClick={handleLogin}>Login</button>
         </div>
     );
 };

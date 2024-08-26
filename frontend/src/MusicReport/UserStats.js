@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import './ReportControls.css';
 import { DataContext } from './Report';
+import api from './api';
 
 function UserStats() {
 
@@ -11,7 +12,7 @@ function UserStats() {
         const fetchData = async () => {
             if (initalized) {
                 try {
-                    const response = await axios.get('http://localhost:8000/musicreport/setsongrange/', {
+                    const response = await api.get('/musicreport/setsongrange/', {
                         params: {
                             range: songTime,
                             name: currentCard
@@ -31,7 +32,7 @@ function UserStats() {
         const fetchData = async () => {
             if (initalized) {
                 try {
-                    const response = await axios.get('http://localhost:8000/musicreport/setartistrange/', {
+                    const response = await api.get('/musicreport/setartistrange/', {
                         params: {
                             range: artistTime,
                             name: currentCard

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { DataContext } from './Report';
 import './ReportControls.css';
-
+import api from './api';
 
 const SearchComponent = () => {
 
@@ -15,7 +15,7 @@ const SearchComponent = () => {
     const handleSearch = async (e) => {
         setQuery(e.target.value);
         try {
-            const response = await axios.get("http://localhost:8000/musicreport/searchquery/", {
+            const response = await api.get("/musicreport/searchquery/", {
                 params: {
                     name: e.target.value
                 }
@@ -28,7 +28,7 @@ const SearchComponent = () => {
 
     const handleSelectResult = async (result) => {
         try {
-            const response = await axios.get("http://localhost:8000/musicreport/getCard/", {
+            const response = await api.get("/musicreport/getCard/", {
                 params: {
                     name: result
                 }

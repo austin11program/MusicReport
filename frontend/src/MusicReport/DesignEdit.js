@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 import axios from 'axios';
 import { DataContext } from './Report';
 import './ReportControls.css';
+import api from './api';
 
 
 function DesignEdit() {
@@ -15,7 +16,7 @@ function DesignEdit() {
 
         const fetchImages = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/musicreport/imagelist/", {
+                const response = await api.get("/musicreport/imagelist/", {
                     params: {
                         name: currentCard,
                         songRange: songTime,
@@ -34,7 +35,7 @@ function DesignEdit() {
 
     const handleImageSelect = async (e) => {
         try {
-            const response = await axios.get("http://localhost:8000/musicreport/setdesignimage/", {
+            const response = await api.get("/musicreport/setdesignimage/", {
                 params: {
                     "type": e.type,
                     "id": e.id,

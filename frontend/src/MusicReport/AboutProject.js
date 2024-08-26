@@ -15,7 +15,11 @@ function AboutProject() {
             <p className="text body ">
                 Use the Login button to login with spotify<br/>Use the Demo button for demostration
             </p>
-            <img src='umlDiagram.jpg'></img>
+            <h1 className="header mt-3">Progress</h1>
+            <p className="text body ">
+                The project is currently a work in progress. New features like error checking, database management, demo button will be added.
+            </p>
+            <img className="mb-5" src='umlDiagram.jpg'></img>
 
 
         </>

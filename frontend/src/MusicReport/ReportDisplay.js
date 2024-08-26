@@ -38,7 +38,7 @@ function ReportDisplay() {
                         displaySongs.length > 0 ?
                             displaySongs.map((e) => (
                                 <>
-                               <h1 className="text" key={e.rank}>{e.name}</h1>
+                               <h1 className="textsize" key={e.rank}>{e.name}</h1>
                                 </>
                             ))
                             :
@@ -49,7 +49,7 @@ function ReportDisplay() {
                         displayArtists.length > 0 ?
                             displayArtists.map((e) => (
                                 <>
-                               <h1 className="text" key={e.rank}>{e.name}</h1>
+                               <h1 className="textsize" key={e.rank}>{e.name}</h1>
                                 </>
                             ))
                             :

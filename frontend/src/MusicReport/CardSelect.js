@@ -4,6 +4,7 @@ import axios from 'axios';
 import { DataContext } from './Report';
 import SearchComponent from './SearchComponent';
 import './ReportControls.css';
+import api from './api';
 
 
 function CardSelect() {
@@ -17,7 +18,7 @@ function CardSelect() {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/musicreport/deleteCurrentCard/", {
+            const response = await api.get("/musicreport/deleteCurrentCard/", {
                 params: {
                     name: currentCard
                 }
@@ -44,7 +45,7 @@ function CardSelect() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/musicreport/createNewCard/", {
+            const response = await api.get("/musicreport/createNewCard/", {
                 params: {
                     name: newName
                 }

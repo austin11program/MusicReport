@@ -5,6 +5,8 @@ import axios from 'axios';
 import ReportDisplay from './ReportDisplay';
 import LoginScreen from './ReportLoginScreen';
 import ReportButtons from './ReportButtons';
+import api from './api';
+
 
 export const DataContext = createContext();
 
@@ -32,7 +34,7 @@ function Report() {
         const fetchData = async () => {
             try {
                 if (loggedIn) {
-                    const response = await axios.get('http://localhost:8000/musicreport/userStats/', {
+                    const response = await api.get('/musicreport/userStats/', {
                         params: {
                             name: currentCard
                         }
@@ -69,8 +71,8 @@ function Report() {
                                     <div className="col-lg-6 d-flex justify-content-end">
                                         <ReportDisplay></ReportDisplay>
                                     </div>
-                                    <div className="col-lg-1"></div>
-                                    <div className="col-lg-4 ">
+                                    {/* <div className="col-lg-1"></div> */}
+                                    <div className="col-lg-5 ms-5 ">
                                         <ReportButtons></ReportButtons>
                                     </div>
                                 </>

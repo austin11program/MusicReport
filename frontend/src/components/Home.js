@@ -17,15 +17,15 @@ function Home() {
                     <h1 className="headertext">Austin Nguyen</h1>
                     <h1 className="subheader" >Student at University of Texas</h1>
                     <h1 className="bodytext">Hi, I'm Austin. I'm seeking a summer 2025 internship and other
-                    tech opportunities.
+                        tech opportunities.
                     </h1>
                     <a href="mailto:austinnguyennn@gmail.com?" className="profilebutton">Contact Me</a>
 
                     <div class="icon-container">
-                        <a href="https://www.linkedin.com/in/your-profile"target="_blank" class="icon" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/austin-nguyen-ut/" target="_blank" class="icon" title="LinkedIn">
                             <img src="linkedin.png" alt="LinkedIn" />
                         </a>
-                        <a href="mailto:austinnguyennn@gmail.com" target="_blank"class="icon" title="Email">
+                        <a href="mailto:austinnguyennn@gmail.com" target="_blank" class="icon" title="Email">
                             <img src="emailicon.jpeg" alt="Email" />
                         </a>
                         <a href="https://gitlab.com/austinnguyennn" target="_blank" class="icon" title="GitHub">
