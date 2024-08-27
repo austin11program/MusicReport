@@ -13,6 +13,9 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.4"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -31,9 +34,6 @@
       "not dead",
       "not op_mini all"
     ],
-    "engines": {
-      "node": "16.x"
-    },
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
