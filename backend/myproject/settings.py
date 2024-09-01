@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-4n1l7sizy62vb9_%*k^1)f=7e#j@b%5nvp$p3$quz5gw89v)uz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "159.65.227.92" ,"https://musicreportfrontend.vercel.app/" ,"localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "159.65.227.92" ,"https://musicreportfrontend.vercel.app/" ,"localhost" , "http://api.musicreportapi.xyz/"]
 
 
 # Application definition
@@ -86,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

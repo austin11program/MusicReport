@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from time import gmtime, strftime
 from django.shortcuts import render
+from django.db import connections
+from django.db.utils import OperationalError
 
 
 from .populateDatabase import fillMusicReport
@@ -11,6 +13,7 @@ from .spotifyapi import search_for_artist,search_for_album, search_for_song
 from .userSpotify import authRequest, myTopStats, getToken,getUserProfile
 
 # Create your views here
+# source venv/bin/activate
     
 def login(request):
     try:
@@ -43,12 +46,13 @@ def getStats(request):
             UserData = UserInfo(displayName=userResult["displayName"],
                             image=userResult["image"],
                             email=userResult["email"],
-                            id=userResult["id"])
+                            id=userResult["id"],
+                            demo=False)
             UserData.save()
             
         name = UserData.id + "_USER_DATA%"
         try:
-            card = MusicReport.objects.get(name=name, dateCreated=strftime("%Y-%m-%d", gmtime()))
+            card = MusicReport.objects.filter(demo="user").get(name=name, dateCreated=strftime("%Y-%m-%d", gmtime()))
         except MusicReport.DoesNotExist:
             card = MusicReport(name=name)
             card.save()
@@ -57,6 +61,7 @@ def getStats(request):
             card.design.save()
             card.belongsTo = UserData
             card.dateCreated = strftime("%Y-%m-%d", gmtime())
+            card.demo=False
             longTermSongs = myTopStats("tracks", "long_term")
             longTermArtists = myTopStats("artists", "long_term")
             fillMusicReport(card, longTermArtists, longTermSongs, "long_term")
@@ -70,13 +75,53 @@ def getStats(request):
         
         currentName = request.GET.get("name")
         try:
-            MusicReport.objects.get(name=currentName)
+            MusicReport.objects.filter(demo=False).get(name=currentName)
         except MusicReport.DoesNotExist:
-            save_user_data(card,currentName,UserData) 
+            save_user_data(card,currentName,UserData,False) 
         
         artistData = card.artistDisplay()
         songData = card.songDisplay()
-        return JsonResponse({'success': 200, "name": currentName, "artists": artistData, "songs": songData})
+        return JsonResponse({'success': 200, "name": currentName, "artists": artistData, "songs": songData, "userId":UserData.id})
+   
+    return JsonResponse({'error': 'No code provided'}, status=400)
+
+def demoSetup(request):
+    # if request.method == 'GET':
+        
+        # name = request.GET.get("name");
+        # try :
+        #     card = MusicReport.objects.get(name=name, dateCreated=strftime("%Y-%m-%d", gmtime()))
+        # except MusicReport.DoesNotExist:
+        #     card = MusicReport.objects.using("demo").create(name = name, dateCreated=strftime("%Y-%m-%d", gmtime()))
+
+        # card.save(using="demo")
+        # songList = search_for_song("Post Malone",5)
+        # artistList = search_for_artist("pop",5)
+        # modifiedSongs = [{ **song, "term":"short_term", "order":index+1} for index,song in enumerate(songList)]
+        # modifiedArtists = [{ **artist, "term":"short_term", "order":index+1} for index,artist in enumerate(artistList)]
+
+        # fillMusicReport_Demo(card ,modifiedArtists, modifiedSongs, "long_term")
+        # card.save(using="demo")
+
+        
+        # return JsonResponse({'success': 200, "name": name, "artists": [], "songs": [], "userId":12})
+
+        # songList = search_for_song("Post Malone",5)
+        # artistList = search_for_artist("pop",5)
+        # modifiedSongs = [{ **song, "term":"short_term", "order":index+1} for index,song in enumerate(songList)]
+        # modifiedArtists = [{ **artist, "term":"short_term", "order":index+1} for index,artist in enumerate(artistList)]
+
+        # fillMusicReport_Demo(card ,modifiedArtists, modifiedSongs, "long_term")
+        # songList = search_for_song("country",5)
+        # artistList = search_for_artist("country",5)
+        # fillMusicReport(card ,artistList, songList, "medium_term")
+        # songList = search_for_song("hip hop",5)
+        # artistList = search_for_artist("hip hop",5)
+        # fillMusicReport(card ,artistList, songList, "short_term")
+        # artistData = card.artistDisplay()
+        # songData = card.songDisplay()
+        # card.save(using="demo")
+        # return JsonResponse({'success': 200, "name": name, "artists": artistData, "songs": songData, "userId":UserData.id})
    
     return JsonResponse({'error': 'No code provided'}, status=400)
 
@@ -84,11 +129,13 @@ def setSongRange(request):
     if request.method == 'GET':
         range = request.GET.get("range")
         name = request.GET.get("name")
-        card = MusicReport.objects.get(name=name)
+        id = request.GET.get("userId")
+        demo = request.GET.get("demo")
+        card = MusicReport.objects.filter(demo=demo).get(name=name,belongsTo__id=id)
         card.design.currentSongTerm = range
         card.design.save()
         
-        dataCard = MusicReport.objects.filter(name__endswith="_USER_DATA%").filter(dateCreated=strftime("%Y-%m-%d", gmtime())).first()
+        dataCard = MusicReport.objects.filter(demo=demo).filter(name=id+"_USER_DATA%").filter(dateCreated=strftime("%Y-%m-%d", gmtime())).first()
         checkimagetext(dataCard, card.design.image, card,range, "songs")
         
         return JsonResponse({'success': 200, 'design':card.design.data})
@@ -137,41 +184,62 @@ def setArtistRange(request):
     if request.method == 'GET':
         range = request.GET.get("range")
         name = request.GET.get("name")
-        card = MusicReport.objects.get(name=name)
+        id = request.GET.get("userId")
+        demo = request.GET.get("demo")
+        card = MusicReport.objects.filter(demo=demo).get(name=name,belongsTo__id=id)
         card.design.currentArtistTerm = range
         card.design.save()
-       
+        
+        dataCard = MusicReport.objects.filter(demo=demo).filter(name=id+"_USER_DATA%").filter(dateCreated=strftime("%Y-%m-%d", gmtime())).first()
+        checkimagetext(dataCard, card.design.image, card,range, "artists")
+        
         return JsonResponse({'success': 200})
     return JsonResponse({'error': 500}) 
 
 def getResults(request):
     if request.method == 'GET':
         name = request.GET.get('name')
-        queryResult = MusicReport.objects.filter(name__icontains=name).exclude(name__endswith="_USER_DATA%")[:10]
+        id = request.GET.get("userId")
+        demo = request.GET.get("demo")
+        queryResult = MusicReport.objects.filter(demo=demo).filter(name__icontains=name,belongsTo__id=id).exclude(name__endswith="_USER_DATA%")[:10]
         result = [{"name":query.name} for query in queryResult]
         return JsonResponse({'success': 200,'results':result})  
     return JsonResponse({'error': 500})  
 
 def getCard(request):
     if request.method == 'GET':
+        demoMode = request.GET.get("demo") == 'true'
+        dbAlias = 'demo' if demoMode else 'default'
         name = request.GET.get("name")
+        user_id = request.GET.get("userId")
+        demo=request.GET.get('demo')
         try:
-            card = MusicReport.objects.get(name=name)
-            return JsonResponse({'success': 200, 'name':card.name, 'design':card.design.data, 'artistTime':card.design.currentArtistTerm, 'songTime':card.design.currentSongTerm})
-
+                card = MusicReport.objects.filter(demo=demo).get(name=name, belongsTo__id=user_id)
+                return JsonResponse({
+                    'success': 200,
+                    'name': card.name,
+                    'design': card.design.data,
+                    'artistTime': card.design.currentArtistTerm,
+                    'songTime': card.design.currentSongTerm
+                })
         except MusicReport.DoesNotExist:
-            return JsonResponse({'error': 500})  
-            
-    return JsonResponse({'error': 500})  
-
+            return JsonResponse({'error': 500})
+        except OperationalError:
+            return JsonResponse({'error': 500, 'message': 'Database error'})
+        
+    return JsonResponse({'error': 405, 'message': 'Method not allowed'})
+        
+        
 def deleteCurrentCard(request):
     if request.method == 'GET':
-        if(MusicReport.objects.all().count() == 2):
+        demo = request.GET.get("demo")
+        if(MusicReport.objects.filter(demo=demo).exclude(name__endswith="_USER_DATA%").count() == 1):
             return JsonResponse({'error': 400})  
         name = request.GET.get("name")
-        card = MusicReport.objects.exclude(name=name).exclude(name__endswith="_USER_DATA%").first()
+        id = request.GET.get("userId")
+        card = MusicReport.objects.filter(demo=demo).exclude(name=name,belongsTo__id=id).exclude(name__endswith="_USER_DATA%").first()
         try:
-            MusicReport.objects.get(name=name).design.delete()
+            MusicReport.objects.filter(demo=demo).exclude(name__endswith="_USER_DATA%").get(name=name,belongsTo__id=id).design.delete()
         except MusicReport.DoesNotExist:
             return JsonResponse({'error': 500})  
 
@@ -181,16 +249,18 @@ def deleteCurrentCard(request):
 def createNewCard(request):
     if request.method == 'GET':
         name = request.GET.get("name")
+        id = request.GET.get("userId")
+        demo = request.GET.get("demo")
         if not name or not name.strip():
             return JsonResponse({'error': 'Name is required'}, status=400)
         try:
-            MusicReport.objects.get(name=name)
+            MusicReport.objects.filter(demo=demo).get(name=name,belongsTo__id=id)
             return JsonResponse({'error': 500, 'name already exist':400})
         except MusicReport.DoesNotExist:
             pass
     
-        userDataModel = MusicReport.objects.get(name__endswith="_USER_DATA%", dateCreated=strftime("%Y-%m-%d", gmtime()))
-        UserData = UserInfo.objects.get()
+        userDataModel = MusicReport.objects.filter(demo=demo).get(name=id+"_USER_DATA%", dateCreated=strftime("%Y-%m-%d", gmtime()))
+        UserData = UserInfo.objects.get(id=id)
         card = save_user_data(userDataModel, name,UserData)
 
         return JsonResponse({'success': 200, 'name':card.name, 'design':card.design.data, 'artistTime':card.design.currentArtistTerm, 'songTime':card.design.currentSongTerm})
@@ -200,10 +270,12 @@ def getimageresults(request):
     if request.method == 'GET':
         
         name = request.GET.get("name")
+        id = request.GET.get("userId")
         songRange = request.GET.get("songRange")
         artistRange = request.GET.get("artistRange")
+        demo = request.GET.get("demo")
         
-        currentReport = MusicReport.objects.get(name=name)
+        currentReport = MusicReport.objects.filter(demo=demo).get(name=name,belongsTo__id=id)
         results =[]
         if songRange =="short_term":
             results = [{"id": song.id, "image": song.coverUrls[0], "type":"songs"} for song in currentReport.shortTermSongs.all()]
@@ -230,6 +302,8 @@ def setdesignimage(request):
         type = request.GET.get("type")
         id = request.GET.get("id")
         name = request.GET.get("name")
+        userId = request.GET.get("userId")
+        demo = request.GET.get("demo")
 
         targetImage = ""
         targetName = ""
@@ -246,7 +320,7 @@ def setdesignimage(request):
             targetImage = targetQuery.image
             targetName = targetQuery.displayName
         
-        targetDesign = MusicReport.objects.get(name=name).design
+        targetDesign = MusicReport.objects.filter(demo=demo).get(name=name,belongsTo__id=userId).design
         targetDesign.image = targetImage
         targetDesign.imagetext = targetName
         targetDesign.save()
@@ -264,5 +338,7 @@ def deleteAll(request):
     UserInfo.objects.all().delete()
     return JsonResponse({'success': 200})  
 
+
 def backend_server_view(request):
     return render(request, 'index.html')
+

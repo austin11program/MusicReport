@@ -9,7 +9,7 @@ import api from './api';
 
 function CardSelect() {
 
-    const { currentCard, setCurrentCard, setCardDesign, setArtistTime, setSongTime } = useContext(DataContext)
+    const { demoActive,currentCard, setCurrentCard, setCardDesign, setArtistTime, setSongTime, userId } = useContext(DataContext)
 
     const [newName, setNewName] = useState("")
     const [showInputs, setShowInputs] = useState(false)
@@ -20,7 +20,9 @@ function CardSelect() {
         try {
             const response = await api.get("/musicreport/deleteCurrentCard/", {
                 params: {
-                    name: currentCard
+                    name: currentCard,
+                    userId: userId,
+                    demo: demoActive
                 }
             });
             if (response.data.error) {
@@ -47,7 +49,9 @@ function CardSelect() {
         try {
             const response = await api.get("/musicreport/createNewCard/", {
                 params: {
-                    name: newName
+                    name: newName,
+                    userId: userId,
+                    demo: demoActive
                 }
             })
 

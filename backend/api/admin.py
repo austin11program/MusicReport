@@ -22,7 +22,7 @@ class ArtistInfoAdmin(admin.ModelAdmin):
     
 @admin.register(MusicReport)
 class MusicReportAdmin(admin.ModelAdmin):
-    list_display=(['name','belongsTo','dateCreated'])
+    list_display=(['name','belongsTo','demo','dateCreated'])
     
 @admin.register(ArtistRanking)
 class ArtistRankingAdmin(admin.ModelAdmin):

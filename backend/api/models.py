@@ -23,7 +23,6 @@ class ArtistInfo(models.Model):
     def artistReport(self,report,term):
         rank = self.artistranking_set.filter(report=report, term=term).get()
         return { "name" : self.name, "image": self.image, "rank":rank.ordering, "term":term}
-
     
 class AlbumInfo(models.Model):
     id = models.CharField(max_length=100,primary_key=True)
@@ -35,6 +34,7 @@ class AlbumInfo(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class TrackInfo(models.Model):
     id = models.CharField(max_length=100,primary_key=True)
@@ -46,12 +46,13 @@ class TrackInfo(models.Model):
     previewUrl =models.CharField(max_length=100,blank=True, null=True)
     albumId = models.ForeignKey(AlbumInfo,null=True, blank=True,related_name='albums', on_delete=models.SET_NULL)
 
-    def __str__(self):
-        return self.songName
+    # def __str__(self):
+    #     return self.songName
     
     def trackReport(self,report,term):
         rank = self.trackranking_set.filter(report=report, term=term).get()
         return { "name" : self.songName, "artist": self.artistName, "image": self.coverUrls[0], "rank":rank.ordering, "term":term}
+
 
 class ReportDesign(models.Model):
     color = models.CharField(max_length=100)
@@ -64,16 +65,19 @@ class ReportDesign(models.Model):
     @property
     def data(self):
         return {"color":self.color, "name":self.name, "songTerm":self.currentSongTerm, "artistTerm":self.currentArtistTerm, "image":self.image, 'imagetext':self.imagetext}
+
     
 class UserInfo(models.Model):
     displayName = models.CharField(max_length=100)
     image = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     id = models.CharField(max_length=100, primary_key=True)
+    demo = models.CharField(max_length=100, null=True)
     
 class MusicReport(models.Model):
     belongsTo = models.ForeignKey(UserInfo, related_name="reports",null=True, on_delete=models.CASCADE)
-    dateCreated = models.CharField(max_length=100,null = True)
+    dateCreated = models.CharField(max_length=100,null = True)    
+    demo = models.CharField(max_length=100,null=True)
 
     name = models.CharField(max_length=100)
     shortTermSongs = models.ManyToManyField('TrackInfo',related_name='sSongs', blank = True)
@@ -83,7 +87,7 @@ class MusicReport(models.Model):
     mediumTermArtists = models.ManyToManyField('ArtistInfo',related_name='mArtists', blank=True)
     longTermArtists = models.ManyToManyField('ArtistInfo',related_name='lArtists', blank=True)
     
-    design = models.OneToOneField(ReportDesign, on_delete=models.CASCADE)
+    design = models.OneToOneField(ReportDesign, on_delete=models.CASCADE,null = True)
     
     def songDisplay(self):
         songList = []
@@ -128,7 +132,7 @@ def create_design(sender, instance, created, **kwargs):
         instance.save()
 
 
-def save_user_data(instance,name,userInfo):
+def save_user_data(instance,name,userInfo,demo):
     newReport = MusicReport(name=name)
     newReport.save()
     newReport.design.image = userInfo.image
@@ -136,6 +140,7 @@ def save_user_data(instance,name,userInfo):
     newReport.design.save()
     newReport.belongsTo =userInfo
     newReport.dateCreated = instance.dateCreated
+    newReport.demo="user"
     newReport.shortTermArtists.set(instance.shortTermArtists.all())
     newReport.mediumTermArtists.set(instance.mediumTermArtists.all())
     newReport.longTermArtists.set(instance.longTermArtists.all())

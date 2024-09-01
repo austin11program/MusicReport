@@ -7,7 +7,7 @@ import api from './api';
 
 function DesignEdit() {
 
-    const { songTime, songData, artistData, artistTime, currentCard, setCardDesign, cardDesign } = useContext(DataContext);
+    const { userId, songTime, demoActive, artistTime, currentCard, setCardDesign, cardDesign } = useContext(DataContext);
 
     const [hide, setHide] = useState(true)
     const [imageList, setImageList] = useState([])
@@ -20,7 +20,9 @@ function DesignEdit() {
                     params: {
                         name: currentCard,
                         songRange: songTime,
-                        artistRange: artistTime
+                        artistRange: artistTime,
+                        userId: userId,
+                        demo: demoActive
                     }
                 });
                 setImageList(response.data.data)
@@ -37,9 +39,11 @@ function DesignEdit() {
         try {
             const response = await api.get("/musicreport/setdesignimage/", {
                 params: {
-                    "type": e.type,
-                    "id": e.id,
-                    "name": currentCard
+                    type: e.type,
+                   id: e.id,
+                  name: currentCard,
+                  userId: userId,
+                   demo: demoActive
                 }
             });
             setCardDesign(response.data.design)

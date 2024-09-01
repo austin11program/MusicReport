@@ -12,6 +12,9 @@ export const DataContext = createContext();
 
 function Report() {
 
+    const [userId, setUserId] = useState([""])
+    const [demoActive, setDemoActive] = useState("")
+
     const [songData, setSongData] = useState(["", "", ""])
     const [artistData, setArtistData] = useState(["", "", ""])
     const [songTime, setSongTime] = useState("")
@@ -36,13 +39,16 @@ function Report() {
                 if (loggedIn) {
                     const response = await api.get('/musicreport/userStats/', {
                         params: {
-                            name: currentCard
+                            name: currentCard,
+                            demo : false
                         }
                     });
+                    setDemoActive("demo")
                     setSongData(response.data.songs);
                     setArtistData(response.data.artists);
                     setArtistTime("short_term")
                     setSongTime("short_term")
+                    setUserId(response.data.userId)
                     setInitalized(true)
                 }
             } catch (error) {
@@ -52,8 +58,33 @@ function Report() {
         fetchData()
     }, [loggedIn])
 
+    const handleChange = () => {
+        console.log("demo")
+        const fetchDemo = async () => {
+            try {
 
+                const response = await api.get('/musicreport/demopage/', {
+                    params: {
+                        name: 'demo_music_report_id_USER_DATA%',
+                        userId: "demo_music_report_id"
+                    }
+                });
+                setSongData(response.data.songs);
+                setArtistData(response.data.artists);
+                setArtistTime("short_term")
+                setSongTime("short_term")
+                setUserId(response.data.userId)
+                setCurrentCard("demo_music_report_id_USER_DATA%")
+                console.log("Done")
+                setDemoActive("user")
+                setInitalized(true)
 
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        fetchDemo()
+    };
 
     return (
         <>
@@ -61,11 +92,11 @@ function Report() {
                 <h1 className="p-5">Report</h1>
             </div>
 
-            <DataContext.Provider value={{ initalized, setInitalized, songData, setSongData, artistData, setArtistData, setToken, token, currentCard, setCurrentCard, cardDesign, setCardDesign, artistTime, setArtistTime, songTime, setSongTime }}  >
+            <DataContext.Provider value={{ userId,initalized,demoActive, setInitalized, songData, setSongData, artistData, setArtistData, setToken, token, currentCard, setCurrentCard, cardDesign, setCardDesign, artistTime, setArtistTime, songTime, setSongTime }}  >
 
                 <div className="row">
                     {
-                        loggedIn ?
+                        loggedIn || demoActive ?
                             (
                                 <>
                                     <div className="col-lg-6 d-flex justify-content-end">
@@ -78,7 +109,7 @@ function Report() {
                                 </>
                             ) :
                             (<div className="col-lg-12">
-                                <LoginScreen> </LoginScreen>
+                                <LoginScreen changeState={handleChange}> </LoginScreen>
                             </div>
                             )
                     }

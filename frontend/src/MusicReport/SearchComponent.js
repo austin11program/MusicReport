@@ -6,7 +6,7 @@ import api from './api';
 
 const SearchComponent = () => {
 
-    const { setCurrentCard, setCardDesign, setArtistTime, setSongTime } = useContext(DataContext)
+    const {userId,demoActive,  setCurrentCard, setCardDesign, setArtistTime, setSongTime } = useContext(DataContext)
 
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -17,7 +17,9 @@ const SearchComponent = () => {
         try {
             const response = await api.get("/musicreport/searchquery/", {
                 params: {
-                    name: e.target.value
+                    name: e.target.value,
+                    userId:userId,
+                    demo: demoActive
                 }
             });
             setResults(response.data.results);
@@ -30,7 +32,9 @@ const SearchComponent = () => {
         try {
             const response = await api.get("/musicreport/getCard/", {
                 params: {
-                    name: result
+                    name: result,
+                    userId: userId,
+                    demo: demoActive
                 }
             });
 

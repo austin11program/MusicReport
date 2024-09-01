@@ -6,7 +6,7 @@ import api from './api';
 
 function UserStats() {
 
-    const { initalized, setInitalized, setCardDesign, currentCard, artistTime, setArtistTime, songTime, setSongTime } = useContext(DataContext);
+    const { userId, initalized, demoActive, setInitalized, setCardDesign, currentCard, artistTime, setArtistTime, songTime, setSongTime } = useContext(DataContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -15,7 +15,9 @@ function UserStats() {
                     const response = await api.get('/musicreport/setsongrange/', {
                         params: {
                             range: songTime,
-                            name: currentCard
+                            name: currentCard,
+                            userId: userId,
+                            demo: demoActive
                         }
                     });
                     setCardDesign(response.data.design)
@@ -35,7 +37,9 @@ function UserStats() {
                     const response = await api.get('/musicreport/setartistrange/', {
                         params: {
                             range: artistTime,
-                            name: currentCard
+                            name: currentCard,
+                            userId: userId,
+                            demo: demoActive
                         }
                     });
 
