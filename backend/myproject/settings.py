@@ -28,7 +28,13 @@ SECRET_KEY = 'django-insecure-4n1l7sizy62vb9_%*k^1)f=7e#j@b%5nvp$p3$quz5gw89v)uz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "159.65.227.92" ,"https://musicreportfrontend.vercel.app/" ,"localhost" , "http://api.musicreportapi.xyz/"]
+ALLOWED_HOSTS = [
+    "127.0.0.1", 
+    "159.65.227.92",
+    "localhost", 
+    "api.musicreportapi.xyz",
+    "musicreportfrontend.vercel.app"
+]
 
 
 # Application definition
