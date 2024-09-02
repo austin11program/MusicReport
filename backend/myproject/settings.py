@@ -28,13 +28,19 @@ SECRET_KEY = 'django-insecure-4n1l7sizy62vb9_%*k^1)f=7e#j@b%5nvp$p3$quz5gw89v)uz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+# ALLOWED_HOSTS = [
+#     "127.0.0.1", 
+#     "159.65.227.92",
+#     "localhost", 
+#     "api.musicreportapi.xyz",
+#     "musicreportfrontend.vercel.app"
+# ]
 ALLOWED_HOSTS = [
-    "127.0.0.1", 
-    "159.65.227.92",
-    "localhost", 
-    "api.musicreportapi.xyz",
-    "musicreportfrontend.vercel.app"
+   "*"
 ]
+
+
 
 
 # Application definition
@@ -127,8 +133,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = '/root/MusicReport/backend/static/'
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 # Default primary key field type
