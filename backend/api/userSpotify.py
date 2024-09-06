@@ -12,7 +12,7 @@ load_dotenv()
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
-REDIRECT_URI = "http://localhost:3000/musicreport"
+REDIRECT_URI = "https://musicreportfrontend-git-main-austin11programs-projects.vercel.app/musicreport"
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
 userToken = ""
