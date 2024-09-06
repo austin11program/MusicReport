@@ -152,4 +152,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://musicreportfrontend.vercel.app",# Your React app's URL
     # Add other origins if necessary
 ]
+CORS_ORIGIN_WHITELIST = [
+    'https://www.austinapp.com/',
+    'https://musicreportfrontend-git-main-austin11programs-projects.vercel.app/'
+]
 
