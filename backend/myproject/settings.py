@@ -145,15 +145,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://musicreportfrontend.vercel.app",# Your React app's URL
-    # Add other origins if necessary
+    "https://musicreportfrontend.vercel.app",
+    "https://musicreportfrontend-git-main-austin11programs-projects.vercel.app/"
 ]
-CORS_ORIGIN_WHITELIST = [
-    'https://www.austinapp.com/',
-    'https://musicreportfrontend-git-main-austin11programs-projects.vercel.app/'
-]
-
