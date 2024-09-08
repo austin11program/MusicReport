@@ -47,7 +47,7 @@ def getStats(request):
                             image=userResult["image"],
                             email=userResult["email"],
                             id=userResult["id"],
-                            demo=False)
+                            demo='user')
             UserData.save()
             
         name = UserData.id + "_USER_DATA%"
@@ -61,7 +61,7 @@ def getStats(request):
             card.design.save()
             card.belongsTo = UserData
             card.dateCreated = strftime("%Y-%m-%d", gmtime())
-            card.demo=False
+            card.demo="user"
             longTermSongs = myTopStats("tracks", "long_term")
             longTermArtists = myTopStats("artists", "long_term")
             fillMusicReport(card, longTermArtists, longTermSongs, "long_term")
@@ -75,9 +75,9 @@ def getStats(request):
         
         currentName = request.GET.get("name")
         try:
-            MusicReport.objects.filter(demo=False).get(name=currentName)
+            MusicReport.objects.filter(demo="user").get(name=currentName)
         except MusicReport.DoesNotExist:
-            save_user_data(card,currentName,UserData,False) 
+            save_user_data(card,currentName,UserData,"demo") 
         
         artistData = card.artistDisplay()
         songData = card.songDisplay()
@@ -85,45 +85,6 @@ def getStats(request):
    
     return JsonResponse({'error': 'No code provided'}, status=400)
 
-def demoSetup(request):
-    # if request.method == 'GET':
-        
-        # name = request.GET.get("name");
-        # try :
-        #     card = MusicReport.objects.get(name=name, dateCreated=strftime("%Y-%m-%d", gmtime()))
-        # except MusicReport.DoesNotExist:
-        #     card = MusicReport.objects.using("demo").create(name = name, dateCreated=strftime("%Y-%m-%d", gmtime()))
-
-        # card.save(using="demo")
-        # songList = search_for_song("Post Malone",5)
-        # artistList = search_for_artist("pop",5)
-        # modifiedSongs = [{ **song, "term":"short_term", "order":index+1} for index,song in enumerate(songList)]
-        # modifiedArtists = [{ **artist, "term":"short_term", "order":index+1} for index,artist in enumerate(artistList)]
-
-        # fillMusicReport_Demo(card ,modifiedArtists, modifiedSongs, "long_term")
-        # card.save(using="demo")
-
-        
-        # return JsonResponse({'success': 200, "name": name, "artists": [], "songs": [], "userId":12})
-
-        # songList = search_for_song("Post Malone",5)
-        # artistList = search_for_artist("pop",5)
-        # modifiedSongs = [{ **song, "term":"short_term", "order":index+1} for index,song in enumerate(songList)]
-        # modifiedArtists = [{ **artist, "term":"short_term", "order":index+1} for index,artist in enumerate(artistList)]
-
-        # fillMusicReport_Demo(card ,modifiedArtists, modifiedSongs, "long_term")
-        # songList = search_for_song("country",5)
-        # artistList = search_for_artist("country",5)
-        # fillMusicReport(card ,artistList, songList, "medium_term")
-        # songList = search_for_song("hip hop",5)
-        # artistList = search_for_artist("hip hop",5)
-        # fillMusicReport(card ,artistList, songList, "short_term")
-        # artistData = card.artistDisplay()
-        # songData = card.songDisplay()
-        # card.save(using="demo")
-        # return JsonResponse({'success': 200, "name": name, "artists": artistData, "songs": songData, "userId":UserData.id})
-   
-    return JsonResponse({'error': 'No code provided'}, status=400)
 
 def setSongRange(request):
     if request.method == 'GET':
@@ -261,7 +222,7 @@ def createNewCard(request):
     
         userDataModel = MusicReport.objects.filter(demo=demo).get(name=id+"_USER_DATA%", dateCreated=strftime("%Y-%m-%d", gmtime()))
         UserData = UserInfo.objects.get(id=id)
-        card = save_user_data(userDataModel, name,UserData)
+        card = save_user_data(userDataModel, name,UserData, "user")
 
         return JsonResponse({'success': 200, 'name':card.name, 'design':card.design.data, 'artistTime':card.design.currentArtistTerm, 'songTime':card.design.currentSongTerm})
     return JsonResponse({'error': 500})  

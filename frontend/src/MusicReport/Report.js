@@ -43,7 +43,7 @@ function Report() {
                             demo : false
                         }
                     });
-                    setDemoActive("demo")
+                    setDemoActive("user")
                     setSongData(response.data.songs);
                     setArtistData(response.data.artists);
                     setArtistTime("short_term")
@@ -76,7 +76,7 @@ function Report() {
                 setUserId(response.data.userId)
                 setCurrentCard("demo_music_report_id_USER_DATA%")
                 console.log("Done")
-                setDemoActive("user")
+                setDemoActive("demo")
                 setInitalized(true)
 
             } catch (error) {

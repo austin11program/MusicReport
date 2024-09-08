@@ -12,7 +12,8 @@ load_dotenv()
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
-REDIRECT_URI = "https://musicreportfrontend.vercel.app/musicreport"
+REDIRECT_URI = os.getenv('REACT_APP_REDIRECT_URL')
+
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
 userToken = ""
@@ -23,7 +24,7 @@ def get_auth_header(token):
 
 
 def authRequest():
-
+         
             scope = 'user-read-private user-read-email user-top-read'
             params = {
                 'client_id': client_id,

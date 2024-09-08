@@ -149,5 +149,5 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://musicreportfrontend.vercel.app",
-    "https://musicreportfrontend-git-main-austin11programs-projects.vercel.app/"
+    "https://musicreportfrontend-git-main-austin11programs-projects.vercel.app"
 ]

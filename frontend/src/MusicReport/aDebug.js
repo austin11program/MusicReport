@@ -5,16 +5,18 @@ import './Login.css';
 import api from './api';
 
 
-function LoginButton(props) {
+function LoginButton() {
 
     const [codeRequest, setCodeRequest] = useState(false);
     const { setToken } = useContext(DataContext);
 
     const handleLogin = async () => {
         try {
+            console.log(process.env.REACT_APP_REDIRECT_URL)
+            console.log(process.env.REACT_APP_REDIRECT_URL)
             const response = await api.get('/musicreport/login/', {
                 params: {
-                    redirectUrl: props.redirectUrl
+                    // redirectUrl: process.env.REACT_APP_REDIRECT_URL
                 }
             });
             window.location.href = response.data.auth_url; // Redirect the browser
@@ -30,10 +32,11 @@ function LoginButton(props) {
         if (code) {
             const fetchToken = async () => {
                 try {
+                    console.log(process.env.REACT_APP_REDIRECT_URL)
                     const response = await api.get('/musicreport/getToken/', {
                         params: {
                             code: code,
-                            redirectUrl: props.redirectUrl
+                            // redirectUrl: process.env.REACT_APP_REDIRECT_URL
                         },
                         withCredentials: true
                     });
@@ -46,7 +49,7 @@ function LoginButton(props) {
             };
             fetchToken();
         }
-    }, [props.redirectUrl]);
+    }, []);
 
     return (
         <div>

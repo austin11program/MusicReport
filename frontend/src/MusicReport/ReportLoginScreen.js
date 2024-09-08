@@ -9,11 +9,11 @@ function LoginScreen({ changeState }) {
         <>
             <div class="d-flex flex-column justify-content-center align-items-center" >
                 <div className="d-flex mb-5">
-                    <LoginButton redirectUrl="https://musicreportfrontend.vercel.app/musicreport"></LoginButton>
-                    <button className='btn btn-danger loginbutton ms-5'
+                    <LoginButton ></LoginButton>
+                    {/* <button className='btn btn-danger loginbutton ms-5'
                         onClick={changeState}>
                         Demo
-                    </button>
+                    </button> */}
                 </div>
                 <AboutProject></AboutProject>
             </div>

@@ -17,7 +17,7 @@ function AboutProject() {
             </p>
             <h1 className="header mt-3">Progress</h1>
             <p className="text body ">
-                The project is currently a work in progress. New features like error checking, database management, demo button will be added.
+                The project is currently a work in progress. New features like a demo button will be added.
             </p>
             <img className="mb-5" src='umlDiagram.jpg'></img>
 

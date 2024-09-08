@@ -10,7 +10,6 @@ urlpatterns = [
     path("musicreport/setartistrange/", musicReportViews.setArtistRange,name ="get_token"),
     path("musicreport/debug/", musicReportViews.deleteAll,name ="get_token"),
     path("musicreport/debugtwo/", musicReportViews.deleteAll,name ="get_token"),
-    path("musicreport/demopage/", musicReportViews.demoSetup,name ="create_new"),
     
     path("musicreport/searchquery/", musicReportViews.getResults,name ="get_card"),
     path("musicreport/getCard/", musicReportViews.getCard,name ="get_card"),
