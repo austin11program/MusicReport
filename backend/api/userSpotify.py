@@ -7,12 +7,12 @@ import requests
 
 import urllib
 
-load_dotenv()
+load_dotenv("Austin\'sProject/backend")
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
-REDIRECT_URI = os.getenv('REACT_APP_REDIRECT_URL')
+REDIRECT_URI = os.getenv('REDIRECT_URL')
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
